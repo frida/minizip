@@ -1,8 +1,8 @@
 /* mz_crypt_openssl.c -- Crypto/hash functions for OpenSSL
-   part of the MiniZip project
+   part of the minizip-ng project
 
-   Copyright (C) 2010-2020 Nathan Moinvaziri
-     https://github.com/nmoinvaz/minizip
+   Copyright (C) 2010-2021 Nathan Moinvaziri
+     https://github.com/zlib-ng/minizip-ng
 
    This program is distributed under the terms of the same license as zlib.
    See the accompanying LICENSE file for the full text of the license.
@@ -16,10 +16,19 @@
 #include <openssl/rand.h>
 #include <openssl/sha.h>
 #include <openssl/aes.h>
+#include <openssl/crypto.h>
+#include <openssl/evp.h>
 #include <openssl/hmac.h>
-#include <openssl/pkcs12.h>
+
+#if defined(MZ_ZIP_SIGNING)
+/* Note: https://www.imperialviolet.org/2015/10/17/boringssl.html says that
+   BoringSSL does not support CMS. "#include <etc/cms.h>" will fail. See
+   https://bugs.chromium.org/p/boringssl/issues/detail?id=421
+*/
 #include <openssl/cms.h>
+#include <openssl/pkcs12.h>
 #include <openssl/x509.h>
+#endif
 
 /***************************************************************************/
 

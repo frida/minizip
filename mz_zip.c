@@ -1,8 +1,8 @@
 /* zip.c -- Zip manipulation
-   part of the MiniZip project
+   part of the minizip-ng project
 
-   Copyright (C) 2010-2020 Nathan Moinvaziri
-     https://github.com/nmoinvaz/minizip
+   Copyright (C) 2010-2021 Nathan Moinvaziri
+     https://github.com/zlib-ng/minizip-ng
    Copyright (C) 2009-2010 Mathias Svensson
      Modifications for Zip64 support
      http://result42.com
@@ -1072,7 +1072,7 @@ static int32_t mz_zip_read_cd(void *handle) {
         if (eocd_pos < zip->cd_offset) {
             /* End of central dir should always come after central dir */
             err = MZ_FORMAT_ERROR;
-        } else if (eocd_pos < zip->cd_offset + zip->cd_size) {
+        } else if ((uint64_t)eocd_pos < (uint64_t)zip->cd_offset + zip->cd_size) {
             /* Truncate size of cd if incorrect size or offset provided */
             zip->cd_size = eocd_pos - zip->cd_offset;
         }
