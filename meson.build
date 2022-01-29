@@ -76,8 +76,16 @@ else
 
   have_iconv = cc.has_function('iconv_open')
   if not have_iconv
-    if cc.has_header_symbol('iconv.h', 'iconv_open')
+    iconv_dep = dependency('libiconv', required: false)
+    have_iconv = iconv_dep.found()
+
+    if not have_iconv and cc.has_header_symbol('iconv.h', 'iconv_open')
       iconv_dep = cc.find_library('iconv')
+      have_iconv = true
+    endif
+
+    if not have_iconv
+      iconv_dep = dependency('libiconv')
       have_iconv = true
     endif
   endif
