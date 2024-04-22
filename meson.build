@@ -106,6 +106,7 @@ minizip = library('minizip', sources,
   install: true,
 )
 minizip_dep = declare_dependency(link_with: minizip)
+meson.override_dependency('minizip', minizip_dep)
 
 pkg = import('pkgconfig')
 pkg.generate(minizip,
